@@ -1,5 +1,5 @@
 # Disaster Response Pipeline
-The Ananconda notebook corresponding to a data science blog analyzing Airbnb data.
+Python code for a diasaster response pipeline.
 
 ## Table of Contents
 

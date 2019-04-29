@@ -34,12 +34,10 @@ This project was written in Python 3.6, using Jupyter Notebook on Anaconda. The 
 ## Directory Structure <a name="directoryStructure"></a>
 
 - Root /
-    
-    - README.md  
-    - Data /  
-        - calendar.csv  
-        - listings.csv  
-        - reviews.csv  
-   
-## Results <a name="results"></a>
 
+    - README.md  
+    - data /  
+        - disaster_categories.csv  
+        - disaster_messages.csv  
+
+## Results <a name="results"></a>

@@ -15,17 +15,6 @@ This project was written in Python 3.6, using Jupyter Notebook on Anaconda. The 
 - numpy
 - pandas
 - matplotlib
-- IPython (display module)
-- collections
-- itertools (chain module)
-- sklearn
-- time
-- sklearn.model_selection (train_test_split module)
-- sklearn.preprocessing (Imputer and StandardScaler modules)
-- sklearn.metrics (mean_squared_error module)
-- sklearn.linear_model (LinearRegression and Logistic regressionmodule)
-- sklearn.tree (DecisionTreeRegressor module)
-- sklearn.svm (SVM module)
 
 
 ## Project Motivation <a name="motivation"></a>

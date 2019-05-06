@@ -33,7 +33,14 @@ This project was written in Python 3.6, using Jupyter Notebook on Anaconda. The 
 ## Design <a name="design"></a>
 
 ### Main Uses Cases
+There are 3 main use cases:
+
+- Import data
+- Train model
+- Classifiy message
+
 <p align="center">
-    	<img src="./uml/Use cases.png" width="95%" title="Main use cases.">
+    <img src="./uml/Use cases.png" title="Main use cases.">
 </p
+    
 ## Results <a name="results"></a>

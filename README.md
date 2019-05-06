@@ -37,7 +37,7 @@ There are 3 main use cases:
 
 - Import data
 - Train model
-- Classifiy message
+- Classify message
 
 <p align="center">
     <img src="./uml/Use cases.png" width="800" title="Main use cases." alt="Main use cases.">

@@ -1,15 +1,16 @@
 import sys
+import pandas as pd
 
 
-def load_data(messages_filepath, categories_filepath):
+def load_data(messages_filepath: str, categories_filepath: str) -> pd.DataFrame:
     pass
 
 
-def clean_data(df):
+def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     pass
 
 
-def save_data(df, database_filename):
+def save_data(df: pd.DataFrame, database_filename: str):
     pass  
 
 

@@ -1,11 +1,11 @@
 import sys
+from sklearn.model_selection import train_test_split
 
-
-def load_data(database_filepath):
+def load_data(database_filepath: str):
     pass
 
 
-def tokenize(text):
+def tokenize(text: str):
     pass
 
 
@@ -17,7 +17,7 @@ def evaluate_model(model, X_test, Y_test, category_names):
     pass
 
 
-def save_model(model, model_filepath):
+def save_model(model, model_filepath: str):
     pass
 
 

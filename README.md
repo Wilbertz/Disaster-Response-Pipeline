@@ -41,6 +41,6 @@ There are 3 main use cases:
 
 <p align="center">
     <img src="./uml/Use cases.png" title="Main use cases.">
-</p
+</p>
     
 ## Results <a name="results"></a>

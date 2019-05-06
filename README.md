@@ -1,5 +1,5 @@
 # Disaster Response Pipeline
-Python code for a diasaster response pipeline.
+Python code for a disaster response pipeline.
 
 ## Table of Contents
 
@@ -11,7 +11,7 @@ Python code for a diasaster response pipeline.
 
 ## Installation <a name="installation"></a>
 
-This project was written in Python 3.6, using Jupyter Notebook on Anaconda. The relevant Python packages for this project are as follows:
+This project was written in Python 3.6, using a Jupyter Notebook on Anaconda. The relevant Python packages for this project are as follows:
 
 - numpy
 - pandas
@@ -26,9 +26,19 @@ This project was written in Python 3.6, using Jupyter Notebook on Anaconda. The 
 - Root /
 
     - README.md  
+    - app /
+        - templates /
+            - go.html
+            - master.html 
+        - run.py  
     - data /  
         - disaster_categories.csv  
         - disaster_messages.csv  
+        - process_data.py  
+    - models /  
+        - train_classifier.py  
+    - uml /
+        - Use cases.png  
 
 ## Design <a name="design"></a>
 

@@ -35,4 +35,6 @@ This project was written in Python 3.6, using Jupyter Notebook on Anaconda. The 
 ### Main Uses Cases
 ![Main Use Cases](/uml/Use cases.png?raw=true "Main Use Cases")
 
+<img src="./uml/Use cases.png" width="350" title="Main use cases.">
+
 ## Results <a name="results"></a>

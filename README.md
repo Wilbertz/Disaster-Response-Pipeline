@@ -11,11 +11,21 @@ Python code for a disaster response pipeline.
 
 ## Installation <a name="installation"></a>
 
-This project was written in Python 3.6, using a Jupyter Notebook on Anaconda. The relevant Python packages for this project are as follows:
+This project was written in Python 3.7, using a Jupyter Notebook on Anaconda. The relevant Python packages for this project are as follows:
 
+- sys
+- logging
 - numpy
 - pandas
 - matplotlib
+- plotly
+- json
+- nltk.stem
+- nltk.tokenize
+- flask
+- sqlalchemy
+- sklearn.externals
+- sklearn.model_selection
 
 
 ## Project Motivation <a name="motivation"></a>

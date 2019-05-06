@@ -1,4 +1,5 @@
 import sys
+import logging
 import pandas as pd
 
 
@@ -14,7 +15,15 @@ def save_data(df: pd.DataFrame, database_filename: str):
     pass  
 
 
+def check_for_existing_filepath(filepath: str) -> bool:
+    return True
+
+
 def main():
+    logging.basicConfig(filename='process_data.log', level=logging.INFO)
+    logging.info('Started')
+    logging.info(sys.argv)
+
     if len(sys.argv) == 4:
 
         messages_filepath, categories_filepath, database_filepath = sys.argv[1:]
@@ -39,6 +48,7 @@ def main():
               'disaster_messages.csv disaster_categories.csv '\
               'DisasterResponse.db')
 
+    logging.info('Finished')
 
 if __name__ == '__main__':
     main()

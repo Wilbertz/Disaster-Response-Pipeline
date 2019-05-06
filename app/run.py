@@ -7,12 +7,13 @@ from nltk.tokenize import word_tokenize
 
 from flask import Flask
 from flask import render_template, request, jsonify
-from plotly.graph_objs import Bar
+import plotly.graph_objs as go
 from sklearn.externals import joblib
 from sqlalchemy import create_engine
 
 
 app = Flask(__name__)
+
 
 def tokenize(text):
     tokens = word_tokenize(text)
@@ -24,6 +25,7 @@ def tokenize(text):
         clean_tokens.append(clean_tok)
 
     return clean_tokens
+
 
 # load data
 engine = create_engine('sqlite:///../data/YourDatabaseName.db')
@@ -48,7 +50,7 @@ def index():
     graphs = [
         {
             'data': [
-                Bar(
+                go.bar(
                     x=genre_names,
                     y=genre_counts
                 )

@@ -33,6 +33,6 @@ This project was written in Python 3.6, using Jupyter Notebook on Anaconda. The 
 ## Design <a name="design"></a>
 
 ### Main Uses Cases
-![Main Use Cases](uml/usecases.png?raw=true "Main Use Cases")
+![Main Use Cases](uml/Use cases.png?raw=true "Main Use Cases")
 
 ## Results <a name="results"></a>

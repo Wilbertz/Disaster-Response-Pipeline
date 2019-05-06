@@ -40,7 +40,7 @@ There are 3 main use cases:
 - Classifiy message
 
 <p align="center">
-    <img src="./uml/Use cases.png" title="Main use cases.">
+    <img src="./uml/Use cases.png" width="800" title="Main use cases." alt="Main use cases.">
 </p>
-    
+
 ## Results <a name="results"></a>

@@ -6,7 +6,8 @@ Python code for a diasaster response pipeline.
 1. [Installation](#installation)
 2. [Project Motivation](#motivation)
 3. [Directory Structure](#directoryStructure)
-4. [Results](#results)
+4. [Design](#design)
+5. [Results](#results)
 
 ## Installation <a name="installation"></a>
 
@@ -28,5 +29,10 @@ This project was written in Python 3.6, using Jupyter Notebook on Anaconda. The 
     - data /  
         - disaster_categories.csv  
         - disaster_messages.csv  
+
+## Design <a name="design"></a>
+
+### Main Uses Cases
+![Main Use Cases](uml/usecases.png?raw=true "Main Use Cases")
 
 ## Results <a name="results"></a>

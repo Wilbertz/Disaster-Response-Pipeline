@@ -34,10 +34,14 @@ class TrainClassifierTestCase(unittest.TestCase):
 
         # Act
         result = tokenize(text)
-        print(result)
 
         # Assert
         self.assertIsNotNone(result)
+        for token in result:
+            self.assertNotIn(".", token)
+            self.assertNotIn(",", token)
+            self.assertNotIn("!", token)
+            self.assertNotIn("?", token)
 
     def test_load_data_should_lemmatize_text(self):
         """Does the tokenize function lemmatize words ?"""

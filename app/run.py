@@ -8,6 +8,7 @@ from nltk.tokenize import word_tokenize
 from flask import Flask
 from flask import render_template, request, jsonify
 import plotly
+# import as pgo and not go in order to avoid name clash with go controller method
 import plotly.graph_objs as pgo
 from sklearn.externals import joblib
 from sqlalchemy import create_engine
@@ -28,6 +29,7 @@ def tokenize(text: str):
 
     return tokens
 
+
 # load data
 engine = create_engine('sqlite:///../data/DisasterResponse.sqlite')
 df = pd.read_sql_table('Messages', engine)
@@ -36,15 +38,20 @@ df = pd.read_sql_table('Messages', engine)
 model = joblib.load("../models/classifier.pkl")
 
 
-# index webpage displays cool visuals and receives user input text for model
+# index web page displays cool visuals and receives user input text for model
 @app.route('/')
 @app.route('/index')
 def index():
     
     # extract data needed for visuals
     # TODO: Below is an example - modify to extract data for your own visuals
+
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
+
+    df_top_10_cat = df.iloc[:, 4:].sum(axis=0).sort_values(ascending=False)[:10]
+    top_10_cat_names = list(df_top_10_cat.index.values)
+    top_10_cat_values = list(df_top_10_cat.values)
 
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
@@ -68,6 +75,25 @@ def index():
             }
         }
     ]
+    graph_2 = {
+        'data': [
+            pgo.Bar(
+                x=top_10_cat_names,
+                y=top_10_cat_values
+            )
+        ],
+
+        'layout': {
+            'title': 'Top 10 categories',
+            'yaxis': {
+                'title': "Count"
+            },
+            'xaxis': {
+                'title': "Categories"
+            }
+        }
+    }
+    graphs.append(graph_2)
     
     # encode plotly graphs in JSON
     ids = ["graph-{}".format(i) for i, _ in enumerate(graphs)]

@@ -1,24 +1,65 @@
 import sys
-from sklearn.model_selection import train_test_split
+import re
+import pickle
+
+import pandas as pd
+
+from sqlalchemy import create_engine
+
+from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
+from sklearn.multioutput import MultiOutputClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.metrics import confusion_matrix, classification_report, fbeta_score, make_scorer
+
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+
 
 def load_data(database_filepath: str):
-    pass
+    engine = create_engine('sqlite:///' + database_filepath)
+    df = pd.read_sql_table('Messages', engine)
+    X = df.loc[:, 'message']
+    Y = df.iloc[:, -36:]
+    category_names = list(Y.columns)
+
+    return X, Y, category_names
 
 
 def tokenize(text: str):
-    pass
+    text = re.sub(r"[^a-zA-Z0-9]", " ", text.lower()).strip()
 
+    # tokenize text
+    tokens = word_tokenize(text)
 
+    # lemmatize and remove stop words
+    lemmatizer = WordNetLemmatizer()
+    tokens = [lemmatizer.lemmatize(word) for word in tokens if word not in stopwords.words('english')]
+
+    return tokens
+
+    
 def build_model():
-    pass
+    pipeline=Pipeline([
+        ('Vect',CountVectorizer(tokenize)),
+        ('tfidf',TfidfTransformer()),
+        ('clf',MultiOutputClassifier(RandomForestClassifier()))
+    ])
+    parameters={'tfidf__use_idf': [True], }
+    model=GridSearchCV(pipeline, param_grid=parameters, verbose=2)
+    return model
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
-    pass
+    y_pred = model.predict(X_test)
+    print(classification_report(Y_test, y_pred, target_names = category_names))
 
 
 def save_model(model, model_filepath: str):
-    pass
+    with open(model_filepath, 'wb') as file:
+        pickle.dump(model, file)
 
 
 def main():

@@ -61,6 +61,7 @@ def log_and_print(log_message: str) -> None:
 
 
 def main() -> None:
+    """"""
     logging.basicConfig(
         filename='process_data.log',
         format='%(asctime)s : %(levelname)s : %(message)s',

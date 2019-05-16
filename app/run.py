@@ -1,27 +1,33 @@
-import json
 import re
+import json
+from typing import List, Any, Union
+
 import pandas as pd
 
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
 
 from flask import Flask
-from flask import render_template, request, jsonify
+from flask import render_template, request
+
 import plotly
 # import as pgo and not go in order to avoid name clash with go controller method
 import plotly.graph_objs as pgo
+
 from sklearn.externals import joblib
+
 from sqlalchemy import create_engine
 
 
 app = Flask(__name__)
 
 
-def tokenize(text: str):
+def tokenize(text: str) -> List[Union[str, Any]]:
     text = re.sub(r"[^a-zA-Z0-9]", " ", text.lower()).strip()
 
     # tokenize text
-    tokens = word_tokenize(text)
+    tokens: List[Union[str, Any]] = word_tokenize(text)
 
     # lemmatize and remove stop words
     lemmatizer = WordNetLemmatizer()
@@ -97,10 +103,10 @@ def index():
     
     # encode plotly graphs in JSON
     ids = ["graph-{}".format(i) for i, _ in enumerate(graphs)]
-    graphJSON = json.dumps(graphs, cls=plotly.utils.PlotlyJSONEncoder)
+    graph_json = json.dumps(graphs, cls=plotly.utils.PlotlyJSONEncoder)
     
     # render web page with plotly graphs
-    return render_template('master.html', ids=ids, graphJSON=graphJSON)
+    return render_template('master.html', ids=ids, graphJSON=graph_json)
 
 
 # web page that handles user query and displays model results

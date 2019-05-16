@@ -1,5 +1,5 @@
 import json
-import plotly
+import re
 import pandas as pd
 
 from nltk.stem import WordNetLemmatizer
@@ -7,7 +7,8 @@ from nltk.tokenize import word_tokenize
 
 from flask import Flask
 from flask import render_template, request, jsonify
-import plotly.graph_objs as go
+import plotly
+import plotly.graph_objs as pgo
 from sklearn.externals import joblib
 from sqlalchemy import create_engine
 
@@ -15,24 +16,24 @@ from sqlalchemy import create_engine
 app = Flask(__name__)
 
 
-def tokenize(text):
+def tokenize(text: str):
+    text = re.sub(r"[^a-zA-Z0-9]", " ", text.lower()).strip()
+
+    # tokenize text
     tokens = word_tokenize(text)
+
+    # lemmatize and remove stop words
     lemmatizer = WordNetLemmatizer()
+    tokens = [lemmatizer.lemmatize(word) for word in tokens if word not in stopwords.words('english')]
 
-    clean_tokens = []
-    for tok in tokens:
-        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
-        clean_tokens.append(clean_tok)
-
-    return clean_tokens
-
+    return tokens
 
 # load data
-engine = create_engine('sqlite:///../data/YourDatabaseName.db')
-df = pd.read_sql_table('YourTableName', engine)
+engine = create_engine('sqlite:///../data/DisasterResponse.sqlite')
+df = pd.read_sql_table('Messages', engine)
 
 # load model
-model = joblib.load("../models/your_model_name.pkl")
+model = joblib.load("../models/classifier.pkl")
 
 
 # index webpage displays cool visuals and receives user input text for model
@@ -44,13 +45,13 @@ def index():
     # TODO: Below is an example - modify to extract data for your own visuals
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
-    
+
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
     graphs = [
         {
             'data': [
-                go.bar(
+                pgo.Bar(
                     x=genre_names,
                     y=genre_counts
                 )

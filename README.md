@@ -45,6 +45,9 @@ This project was written in Python 3.7, using a Jupyter Notebook on Anaconda. Th
         - disaster_categories.csv  
         - disaster_messages.csv  
         - process_data.py  
+    - tests /  
+        - all_tests.py  
+        - process_data_test.py
     - models /  
         - train_classifier.py  
     - uml /

@@ -1,3 +1,8 @@
+"""process_data: Python methods for loading, cleaning and saving data."""
+
+__author__ = "Harald Wilbertz"
+__version__ = "1.0.0"
+
 import sys
 import os
 import logging
@@ -8,8 +13,8 @@ from sqlalchemy import create_engine
 def load_data(messages_filepath: str, categories_filepath: str) -> pd.DataFrame:
     logging.info(
         'load_data started, messages_filepath {}, categories_filepath{}'.format(messages_filepath, categories_filepath))
-    messages: pd.DataFrame = pd.read_csv(messages_filepath)
-    categories: pd.DataFrame = pd.read_csv(categories_filepath)
+    messages = pd.read_csv(messages_filepath)
+    categories = pd.read_csv(categories_filepath)
     df: pd.DataFrame = pd.merge(messages, categories, on='id')
 
     return df
@@ -93,7 +98,7 @@ def main() -> None:
                       'datasets as the first and second argument respectively, as '
                       'well as the filepath of the database to save the cleaned data '
                       'to as the third argument. \n\nExample: python process_data.py '
-                      'disaster_messages.csv unittest_disaster_categories.csv '
+                      'disaster_messages.csv disaster_categories.csv '
                       'DisasterResponse.db')
 
     logging.info('Finished\n')

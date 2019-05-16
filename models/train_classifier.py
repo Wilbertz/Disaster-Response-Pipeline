@@ -1,3 +1,8 @@
+"""train_classifier: Python methods for training a classifier."""
+
+__author__ = "Harald Wilbertz"
+__version__ = "1.0.0"
+
 import sys
 import re
 import pickle
@@ -13,6 +18,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import classification_report
 
+import nltk
+nltk.download(['punkt', 'wordnet', 'stopwords'])
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
@@ -55,7 +62,7 @@ def tokenize(text: str):
     
 def build_model():
     pipeline = Pipeline([
-        ('vectorizer', CountVectorizer(tokenize)),
+        ('vectorizer', CountVectorizer(tokenizer=tokenize)),
         ('tfidf', TfidfTransformer()),
         ('clf', MultiOutputClassifier(RandomForestClassifier()))
     ])

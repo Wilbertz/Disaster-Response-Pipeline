@@ -14,7 +14,7 @@ from train_classifier import tokenize
 class TrainClassifierTestCase(unittest.TestCase):
     """Tests for methods defined in train classifier.py"""
 
-    def test_load_data_should_convert_to_lowercase(self):
+    def test_tokenize_should_convert_to_lowercase(self):
         """Does the tokenize function convert to lowercase ?"""
         # Arrange
         text = "Please, we need tents and water. We are in Silo, Thank you!"
@@ -27,7 +27,7 @@ class TrainClassifierTestCase(unittest.TestCase):
         self.assertFalse('Silo' in result)
         self.assertTrue('silo' in result)
 
-    def test_load_data_should_remove_punctuation(self):
+    def test_tokenize_should_remove_punctuation(self):
         """Does the tokenize function remove punctuation ?"""
         # Arrange
         text = "Please, we need tents and water. We are in Silo, Thank you! My name is Dr. Who"
@@ -43,7 +43,7 @@ class TrainClassifierTestCase(unittest.TestCase):
             self.assertNotIn("!", token)
             self.assertNotIn("?", token)
 
-    def test_load_data_should_lemmatize_text(self):
+    def test_tokenize_should_lemmatize_text(self):
         """Does the tokenize function lemmatize words ?"""
         # Arrange
         text = "Please, we need tents and water. We are in Silo, Thank you!"
@@ -54,7 +54,7 @@ class TrainClassifierTestCase(unittest.TestCase):
         # Assert
         self.assertTrue('tent' in result)
 
-    def test_load_data_should_remove_stopwords(self):
+    def test_tokenize_should_remove_stopwords(self):
         """Does the tokenize function remove stop words ?"""
         # Arrange
         text = "Please, we need tents and water. We are in Silo, Thank you!"

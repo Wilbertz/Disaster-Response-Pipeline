@@ -1,3 +1,8 @@
+"""run.py: Flask based web application."""
+
+__author__ = "Harald Wilbertz"
+__version__ = "1.0.0"
+
 import re
 import json
 from typing import List, Any, Union

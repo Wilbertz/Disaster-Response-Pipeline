@@ -71,8 +71,18 @@ There are 3 main use cases:
 </p>
 
 ### Components and Dataflow
+
+There are 3 main components:
+
+- process_data.py  
+- train_classifier.py  
+- run.py  
+
 <p align="center">
     <img src="./uml/Components.png" width="800" title="Components and Dataflow." alt="Components and Dataflow.">
 </p>
 
+#### process_data.py
+#### train_classifier.py
+#### run.py
 ## Results <a name="results"></a>

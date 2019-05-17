@@ -70,4 +70,9 @@ There are 3 main use cases:
     <img src="./uml/Use cases.png" width="800" title="Main use cases." alt="Main use cases.">
 </p>
 
+### Components and Dataflow
+<p align="center">
+    <img src="./uml/Components.png" width="800" title="Components and Dataflow." alt="Components and Dataflow.">
+</p>
+
 ## Results <a name="results"></a>

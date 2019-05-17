@@ -83,6 +83,16 @@ There are 3 main components:
 </p>
 
 #### process_data.py
+Running process_data.py loads data from the messages and categories csv file and
+persists this data into a SQLite database. Any existing database file
+will be overwritten. Log messages are written both to the console and
+a dedicated log file named process_data.log.
+
+The following sequence of actions is executed:
+- Load data csv files  
+- Clean the data  
+- Save the data into a SQLite database  
+
 #### train_classifier.py
 #### run.py
 ## Results <a name="results"></a>

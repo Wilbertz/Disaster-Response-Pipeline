@@ -35,7 +35,7 @@ def load_data(database_filepath: str) -> Tuple[pd.Series, pd.DataFrame, List[str
            - The input values as a pandas series. Each individual input value is a string.
            - The output values as a pandas data frame.
            - The column names of the output values as a list of strings.
-        """
+    """
     engine = create_engine('sqlite:///' + database_filepath)
     df = pd.read_sql_table('Messages', engine)
     x = df.loc[:, 'message']

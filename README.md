@@ -94,5 +94,18 @@ The following sequence of actions is executed:
 - Save the data into a SQLite database  
 
 #### train_classifier.py
+
+Running train_classifier.py creates either a new classifier.pkl file or overwrites an existing file.
+
+The following sequence of actions is executed:
+- Load data from database  
+- Build a machine learning model  
+- Train the model  
+- Evaluate the model   
+- Persist the model as a pickle file  
+
 #### run.py
+
+This is a web application using the Flask framework. During startup ´the application loads both the machine learning model from the pickle file and messages from SQLite database.
+
 ## Results <a name="results"></a>

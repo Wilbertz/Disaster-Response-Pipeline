@@ -5,7 +5,7 @@ __version__ = "1.0.0"
 
 import re
 import json
-from typing import List, Any, Union
+from typing import List
 import pandas as pd
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize

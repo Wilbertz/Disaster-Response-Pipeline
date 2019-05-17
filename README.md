@@ -68,6 +68,7 @@ Open http://0.0.0.0:3001/ (or http://localhost:3001/ depending on your operation
         - classifier.pkl  
     - uml /
         - Use cases.png  
+        - Components.png
 
 ## Design <a name="design"></a>
 

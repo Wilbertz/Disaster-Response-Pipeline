@@ -53,6 +53,7 @@ This project was written in Python 3.7. The relevant Python packages for this pr
         - unittest_disaster_messages.csv  
     - models /  
         - train_classifier.py  
+        - classifier.pkl  
     - uml /
         - Use cases.png  
 

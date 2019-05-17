@@ -4,7 +4,7 @@ Python code for a disaster response pipeline.
 ## Table of Contents
 
 1. [Installation](#installation)
-2. [Project Motivation](#motivation)
+2. [Instructions](#instructions)
 3. [Directory Structure](#directoryStructure)
 4. [Design](#design)
 5. [Results](#results)
@@ -28,8 +28,20 @@ This project was written in Python 3.7. The relevant Python packages for this pr
 - sklearn.model_selection
 
 
-## Project Motivation <a name="motivation"></a>
+## Instructions <a name="instructions"></a>
+To run ETL pipeline that does all the cleaning of the data and stores the result in SQLite database:
 
+`python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.sqlite`
+
+To run the machine learning  pipeline that trains and saves the classifier:
+
+`python models/train_classifier.py data/DisasterResponse.sqlite models/classifier.pkl`
+
+Run the following command in the app subdirectory to run the web application: 
+
+`python run.py`
+
+Open http://0.0.0.0:3001/ (or http://localhost:3001/ depending on your operation system) in your browser.
 
 ## Directory Structure <a name="directoryStructure"></a>
 

@@ -106,6 +106,6 @@ The following sequence of actions is executed:
 
 #### run.py
 
-This is a web application using the Flask framework. During startup ´the application loads both the machine learning model from the pickle file and messages from SQLite database.
+This is a web application using the Flask framework. During startup the application loads both the machine learning model from the pickle file and messages from the SQLite database.
 
 ## Results <a name="results"></a>

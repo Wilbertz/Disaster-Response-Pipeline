@@ -3,12 +3,11 @@
 __author__ = "Harald Wilbertz"
 __version__ = "1.0.0"
 
-import os
 import sys
 import unittest
 
 sys.path.append('../models')
-from train_classifier import tokenize
+from train_classifier import tokenize, load_data, build_model
 
 
 class TrainClassifierTestCase(unittest.TestCase):
@@ -67,6 +66,26 @@ class TrainClassifierTestCase(unittest.TestCase):
         self.assertFalse('you' in result)
         self.assertFalse('and' in result)
         self.assertFalse('in' in result)
+
+    def test_load_database(self):
+        """Does the load database function retrieve the correct results ?"""
+        # Arrange
+        # Act
+        x, y, column_names = load_data("../data/DisasterResponse.sqlite")
+
+        # Assert
+        self.assertIsNotNone(x)
+        self.assertIsNotNone(y)
+        self.assertIsNotNone(column_names)
+
+    def test_build_model(self):
+        """Does build model return a usable model ?"""
+        # Arrange
+        # Act
+        result = build_model()
+
+        # Assert
+        self.assertIsNotNone(result)
 
 
 def suite():

@@ -6,6 +6,7 @@ __version__ = "1.0.0"
 import sys
 import re
 import pickle
+import logging
 from typing import List, Tuple
 import numpy as np
 import pandas as pd
@@ -15,7 +16,7 @@ from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
 from sklearn.multioutput import MultiOutputClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.metrics import classification_report, f1_score, make_scorer
+from sklearn.metrics import f1_score, make_scorer, precision_recall_fscore_support
 import nltk
 nltk.download(['punkt', 'wordnet', 'stopwords'])
 from nltk.tokenize import word_tokenize
@@ -77,10 +78,10 @@ def multiclass_f1_score(y_test: np.ndarray, y_pred: np.ndarray) -> np.float:
         the weighted average of the f1 scores for individual categories.
 
         arguments:
-            y_test : true values
-            y_pred: predicted values
+            y_test (ndarray): true values
+            y_pred (ndarray): predicted values
         returns:
-            f1_score
+            f1_score (float): The weighted average of f1 scores.
     """
     y_test, y_pred = np.array(y_test), np.array(y_pred)
     f1_scores = []
@@ -88,6 +89,8 @@ def multiclass_f1_score(y_test: np.ndarray, y_pred: np.ndarray) -> np.float:
         f1_scores.append(f1_score(y_true=y_test[:, i], y_pred=y_pred[:, i], average='weighted'))
 
     result = np.average(f1_scores)
+    logging.info('Multiclass F1 Score {}'.format(result))
+
     return result
 
 
@@ -100,6 +103,11 @@ def build_model() -> GridSearchCV:
         - A TFIDF (term frequency–inverse document frequency) Transformer
         - A RandomForest based Multioutput Classifier
 
+       Attention ! : There exists a bug within joblib that results in the error message
+       "ValueError: UPDATEIFCOPY base is read-only" in case n_jobs is set to a value of -1.
+       In order to avoid this error, I had to use a value of 1, forcing the program to use just
+       one processor. For more details see: https://github.com/scikit-learn/scikit-learn/issues/6614
+
        arguments:
            None
        returns:
@@ -109,7 +117,7 @@ def build_model() -> GridSearchCV:
     pipeline = Pipeline([
         ('vectorizer', CountVectorizer(tokenizer=tokenize)),
         ('tfidf', TfidfTransformer()),
-        ('clf', MultiOutputClassifier(RandomForestClassifier(), n_jobs=-1))
+        ('clf', MultiOutputClassifier(RandomForestClassifier(), n_jobs=1))
     ])
     parameters = {
         'tfidf__use_idf': [True],
@@ -117,7 +125,7 @@ def build_model() -> GridSearchCV:
     # Create a f1 scorer
     scorer = make_scorer(multiclass_f1_score, greater_is_better=True)
 
-    return GridSearchCV(pipeline, param_grid=parameters, verbose=2, refit=True, n_jobs=1, scoring=scorer)
+    return GridSearchCV(pipeline, param_grid=parameters, verbose=1, refit=True, n_jobs=1, scoring=scorer)
 
 
 def evaluate_model(model: GridSearchCV, x_test: pd.Series, y_test: pd.DataFrame, category_names: List[str]) -> None:
@@ -137,7 +145,34 @@ def evaluate_model(model: GridSearchCV, x_test: pd.Series, y_test: pd.DataFrame,
            None
     """
     y_pred = model.predict(x_test)
-    print(classification_report(y_test, y_pred, target_names=category_names))
+    log_and_print_evaluation_report(y_test, y_pred, category_names)
+
+
+def log_and_print_evaluation_report(y_test: pd.DataFrame, y_pred: np.ndarray, category_names: List[str]) -> None:
+    """
+        Compute precision, recall, f1-score for all categories
+
+        arguments:
+            y_test (numpy array): result of prediction
+            y_pred (numpy array): true values
+            category_names (list of string): List with category names
+    """
+    precisions, recalls, f1_scores = [], [], []
+
+    y_test, y_pred = np.array(y_test), np.array(y_pred)
+
+    for i, _ in enumerate(range(y_test.shape[1])):
+        precision, recall, f1, support = precision_recall_fscore_support(
+            y_test[:, i], y_pred[:, i], average='weighted', warn_for=tuple())
+        precisions.append(precision)
+        recalls.append(recall)
+        f1_scores.append(f1)
+
+        log_and_print('Category = {}, Precision =  {}, Recall = {}, F1 Score = {}'.format(
+              category_names[i], precision, recall, f1))
+
+    log_and_print('\nFINAL\nPrecision = {}, Recall = {}, F1 Score = {}'.format(
+          np.average(precisions), np.average(recalls), np.average(f1_scores)))
 
 
 def save_model(model: GridSearchCV, model_filepath: str) -> None:
@@ -152,6 +187,20 @@ def save_model(model: GridSearchCV, model_filepath: str) -> None:
     """
     with open(model_filepath, 'wb') as file:
         pickle.dump(model, file)
+
+
+def log_and_print(log_message: str) -> None:
+    """
+        This method outputs its given string on the console and
+        as a log message with info log level.
+
+        arguments:
+           log_message (string): The string to be logged.
+       returns:
+           None
+    """
+    print(log_message)
+    logging.info(log_message)
 
 
 def main() -> None:
@@ -171,31 +220,37 @@ def main() -> None:
        returns:
            None
     """
+    logging.basicConfig(
+        filename='train_classifier.log',
+        format='%(asctime)s : %(levelname)s : %(message)s',
+        level=logging.INFO)
+    logging.info('Started with arguments: {}'.format(sys.argv))
+
     if len(sys.argv) == 3:
         database_filepath, model_filepath = sys.argv[1:]
-        print('Loading data...\n    DATABASE: {}'.format(database_filepath))
+        log_and_print('Loading data...\n    DATABASE: {}'.format(database_filepath))
         x, y, category_names = load_data(database_filepath)
         x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
-        
-        print('Building model...')
+
+        log_and_print('Building model...')
         model = build_model()
-        
-        print('Training model...')
+
+        log_and_print('Training model...')
         model.fit(x_train, y_train)
-        
-        print('Evaluating model...')
+
+        log_and_print('Evaluating model...')
         evaluate_model(model, x_test, y_test, category_names)
 
-        print('Saving model...\n    MODEL: {}'.format(model_filepath))
+        log_and_print('Saving model...\n    MODEL: {}'.format(model_filepath))
         save_model(model, model_filepath)
 
-        print('Trained model saved!')
+        log_and_print('Trained model saved!')
 
     else:
-        print('Please provide the filepath of the disaster messages database '
-              'as the first argument and the filepath of the pickle file to '
-              'save the model to as the second argument. \n\nExample: python '
-              'train_classifier.py ../data/DisasterResponse.db classifier.pkl')
+        log_and_print('Please provide the filepath of the disaster messages database '
+                      'as the first argument and the filepath of the pickle file to '
+                      'save the model to as the second argument. \n\nExample: python '
+                      'train_classifier.py ../data/DisasterResponse.db classifier.pkl')
 
 
 if __name__ == '__main__':

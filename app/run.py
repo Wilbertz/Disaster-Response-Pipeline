@@ -5,8 +5,10 @@ __version__ = "1.0.0"
 
 import re
 import json
+import logging
 from typing import List
 import pandas as pd
+import numpy as np
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
@@ -16,6 +18,7 @@ import plotly
 # import as pgo and not go in order to avoid name clash with go controller method
 import plotly.graph_objs as pgo
 from sklearn.externals import joblib
+from sklearn.metrics import f1_score
 from sqlalchemy import create_engine
 
 
@@ -45,6 +48,28 @@ def tokenize(text: str) -> List[str]:
     tokens = [lemmatizer.lemmatize(word) for word in tokens if word not in stopwords.words('english')]
 
     return tokens
+
+
+def multiclass_f1_score(y_test: np.ndarray, y_pred: np.ndarray) -> np.float:
+    """
+        Computes the F1 score (harmonic mean of precision and recall). The result is
+        the weighted average of the f1 scores for individual categories.
+
+        arguments:
+            y_test (ndarray): true values
+            y_pred (ndarray): predicted values
+        returns:
+            f1_score (float): The weighted average of f1 scores.
+    """
+    y_test, y_pred = np.array(y_test), np.array(y_pred)
+    f1_scores = []
+    for i, _ in enumerate(range(y_test.shape[1])):
+        f1_scores.append(f1_score(y_true=y_test[:, i], y_pred=y_pred[:, i], average='weighted'))
+
+    result = np.average(f1_scores)
+    logging.info('Multiclass F1 Score {}'.format(result))
+
+    return result
 
 
 # load data

@@ -64,9 +64,11 @@ def index():
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
 
-    top_categories = df.iloc[:, 4:].sum(axis=0).sort_values(ascending=False)[:10]
+    top_categories = df.iloc[:, 5:].sum(axis=0).sort_values(ascending=False)[:10]
     top_category_names = list(top_categories.index.values)
     top_category_values = list(top_categories.values)
+
+    df_top10_categories = df.iloc[:, 5:][top_category_names]
 
     # create visuals
     graphs = [
@@ -90,20 +92,27 @@ def index():
         },
         {
             'data': [
-                pgo.Bar(
-                    x=top_category_names,
-                    y=top_category_values
+                pgo.Pie(
+                    labels=top_category_names,
+                    values=top_category_values
                 )
             ],
 
             'layout': {
-                'title': 'Top 10 categories',
-                'yaxis': {
-                    'title': "Count"
-                },
-                'xaxis': {
-                    'title': "Categories"
-                }
+                'title': 'Pie-chart showing top 10 message categories',
+            }
+        },
+        {
+            'data': [
+                pgo.Heatmap(
+                    x=top_category_names,
+                    y=top_category_names,
+                    z=df_top10_categories.corr().values
+                )
+            ],
+
+            'layout': {
+                'title': 'Correlation of top 10 message categories'
             }
         }
     ]

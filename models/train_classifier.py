@@ -7,6 +7,7 @@ import sys
 import re
 import pickle
 from typing import List, Tuple
+import numpy as np
 import pandas as pd
 from sqlalchemy import create_engine
 from sklearn.pipeline import Pipeline
@@ -14,7 +15,7 @@ from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
 from sklearn.multioutput import MultiOutputClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, f1_score, make_scorer
 import nltk
 nltk.download(['punkt', 'wordnet', 'stopwords'])
 from nltk.tokenize import word_tokenize
@@ -69,7 +70,27 @@ def tokenize(text: str) -> List[str]:
 
     return tokens
 
-    
+
+def multiclass_f1_score(y_test: np.ndarray, y_pred: np.ndarray) -> np.float:
+    """
+        Computes the F1 score (harmonic mean of precision and recall). The result is
+        the weighted average of the f1 scores for individual categories.
+
+        arguments:
+            y_test : true values
+            y_pred: predicted values
+        returns:
+            f1_score
+    """
+    y_test, y_pred = np.array(y_test), np.array(y_pred)
+    f1_scores = []
+    for i, _ in enumerate(range(y_test.shape[1])):
+        f1_scores.append(f1_score(y_true=y_test[:, i], y_pred=y_pred[:, i], average='weighted'))
+
+    result = np.average(f1_scores)
+    return result
+
+
 def build_model() -> GridSearchCV:
     """
        Build a GridSearchCV object that contains machine learning model with a pipeline
@@ -88,12 +109,15 @@ def build_model() -> GridSearchCV:
     pipeline = Pipeline([
         ('vectorizer', CountVectorizer(tokenizer=tokenize)),
         ('tfidf', TfidfTransformer()),
-        ('clf', MultiOutputClassifier(RandomForestClassifier()))
+        ('clf', MultiOutputClassifier(RandomForestClassifier(), n_jobs=-1))
     ])
     parameters = {
         'tfidf__use_idf': [True],
     }
-    return GridSearchCV(pipeline, param_grid=parameters, verbose=2)
+    # Create a f1 scorer
+    scorer = make_scorer(multiclass_f1_score, greater_is_better=True)
+
+    return GridSearchCV(pipeline, param_grid=parameters, verbose=2, refit=True, n_jobs=1, scoring=scorer)
 
 
 def evaluate_model(model: GridSearchCV, x_test: pd.Series, y_test: pd.DataFrame, category_names: List[str]) -> None:

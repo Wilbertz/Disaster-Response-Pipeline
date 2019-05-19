@@ -47,6 +47,8 @@ To run the machine learning  pipeline that trains and saves the classifier:
 
 `python models/train_classifier.py data/DisasterResponse.sqlite models/classifier.pkl`
 
+**Attention ! This command takes 5 - 6 hours to complete. **
+
 Run the following command in the app subdirectory to run the web application: 
 
 `python run.py`
@@ -132,3 +134,48 @@ The following sequence of actions is executed:
 This is a web application using the Flask framework. During startup the application loads both the machine learning model from the pickle file and messages from the SQLite database.
 
 ## Results <a name="results"></a>
+
+The trained classifier acieves the following classification results:
+
+- Precision = 0.939
+- Recall = 0.949  
+- F1 Score = 0.937  
+
+For the individual categories:
+
+- related, Precision =  0.812, Recall = 0.824, F1 Score = 0.806  
+- request, Precision =  0.887, Recall = 0.891, F1 Score = 0.879  
+- offer, Precision =  0.993, Recall = 0.996, F1 Score = 0.995  
+- aid_related, Precision =  0.780, Recall = 0.781, F1 Score = 0.779    
+- medical_help, Precision =  0.910, Recall = 0.925, F1 Score = 0.900  
+- medical_products, Precision =  0.942, Recall = 0.952, F1 Score = 0.934  
+- search_and_rescue, Precision =  0.964, Recall = 0.972, F1 Score = 0.961  
+- security, Precision =  0.961, Recall = 0.980, F1 Score = 0.970   
+- military, Precision =  0.9667, Recall = 0.970, F1 Score = 0.959  
+- child_alone, Precision =  1.0, Recall = 1.0, F1 Score = 1.0  
+- water, Precision =  0.953, Recall = 0.956, F1 Score = 0.948  
+- food, Precision =  0.938, Recall = 0.942, F1 Score = 0.937  
+- shelter, Precision =  0.929, Recall = 0.935, F1 Score = 0.924  
+- clothing, Precision =  0.983, Recall = 0.985, F1 Score = 0.980  
+- money, Precision =  0.968, Recall = 0.976, F1 Score = 0.966  
+- missing_people, Precision =  0.978, Recall = 0.989, F1 Score = 0.984  
+- refugees, Precision =  0.966, Recall = 0.965, F1 Score = 0.949  
+- death, Precision =  0.954, Recall = 0.959, F1 Score = 0.945  
+- other_aid, Precision =  0.846, Recall = 0.870, F1 Score = 0.817  
+- infrastructure_related, Precision =  0.873, Recall = 0.934, F1 Score = 0.902  
+- transport, Precision =  0.943, Recall = 0.956, F1 Score = 0.939  
+- buildings, Precision =  0.949, Recall = 0.953, F1 Score = 0.937  
+- electricity, Precision =  0.981, Recall = 0.980, F1 Score = 0.972  
+- tools, Precision =  0.988, Recall = 0.994, F1 Score = 0.991  
+- hospitals, Precision =  0.978, Recall = 0.988, F1 Score = 0.983  
+- shops, Precision =  0.991, Recall = 0.995, F1 Score = 0.993  
+- aid_centers, Precision =  0.976, Recall = 0.987, F1 Score = 0.982  
+- other_infrastructure, Precision =  0.916, Recall = 0.957, F1 Score = 0.936  
+- weather_related, Precision =  0.878, Recall = 0.880, F1 Score = 0.876  
+- floods, Precision =  0.950, Recall = 0.952, F1 Score = 0.946  
+- storm, Precision =  0.938, Recall = 0.943, F1 Score = 0.939  
+- fire, Precision =  0.984, Recall = 0.991, F1 Score = 0.988  
+- earthquake, Precision =  0.973, Recall = 0.974, F1 Score = 0.973  
+- cold, Precision =  0.979, Recall = 0.980, F1 Score = 0.973  
+- other_weather, Precision =  0.932, Recall = 0.947, F1 Score = 0.925  
+- direct_report, Precision =  0.844, Recall = 0.852, F1 Score = 0.829  

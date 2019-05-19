@@ -47,7 +47,7 @@ To run the machine learning  pipeline that trains and saves the classifier:
 
 `python models/train_classifier.py data/DisasterResponse.sqlite models/classifier.pkl`
 
-** Attention ! This command takes 5 - 6 hours to complete. **
+__Attention ! This command takes 5 - 6 hours to complete.__
 
 Run the following command in the app subdirectory to run the web application: 
 

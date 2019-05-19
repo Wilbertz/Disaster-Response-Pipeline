@@ -11,22 +11,32 @@ Python code for a disaster response pipeline.
 
 ## Installation <a name="installation"></a>
 
-This project was written in Python 3.7. The relevant Python packages for this project are as follows:
-
-- sys
-- logging
-- numpy
-- pandas
-- matplotlib
-- plotly
+This project was written in Python 3.7 using Python 3 type hints. The relevant Python packages for this project are as follows:
+- re
+- os  
+- sys  
 - json
-- nltk.stem
+- logging 
+- typing 
+- unittest
+- pickle  
+- pandas  
+- numpy  
+- nltk.stem  
 - nltk.tokenize
+- nltk.corpus
 - flask
-- sqlalchemy
+- plotly  
 - sklearn.externals
-- sklearn.model_selection
+- sklearn.metrics  
+- sklearn.pipeline 
+- sklearn.feature_extraction.text  
+- sklearn.multioutput  
+- sklearn.ensemble  
+- sklearn.model_selection  
+- sqlalchemy
 
+The nltk.download method is called with 'punkt', 'wordnet', and 'stopwords'.
 
 ## Instructions <a name="instructions"></a>
 To run ETL pipeline that does all the cleaning of the data and stores the result in SQLite database:

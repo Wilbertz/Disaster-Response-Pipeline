@@ -135,7 +135,7 @@ This is a web application using the Flask framework. During startup the applicat
 
 ## Results <a name="results"></a>
 
-The trained classifier acieves the following classification results:
+The trained classifier achieves the following classification results:
 
 - Precision = 0.939
 - Recall = 0.949  

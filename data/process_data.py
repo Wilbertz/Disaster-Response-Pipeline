@@ -59,7 +59,7 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
         # change all column values to numeric
         categories[column] = pd.to_numeric(categories[column])
 
-    # replace all values that equals 2 to be encoded as 1
+    # Change category 2 values to 1
     categories = categories.replace(2, 1)
 
     df.drop('categories', axis=1, inplace=True)

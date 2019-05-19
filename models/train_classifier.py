@@ -120,7 +120,9 @@ def build_model() -> GridSearchCV:
         ('clf', MultiOutputClassifier(RandomForestClassifier(), n_jobs=1))
     ])
     parameters = {
-        'tfidf__use_idf': [True],
+        'vectorizer__ngram_range': ((1, 1), (1, 2)),
+        'tfidf__use_idf': [True, False],
+        'clf__estimator__n_estimators': (10, 100)
     }
     # Create a f1 scorer
     scorer = make_scorer(multiclass_f1_score, greater_is_better=True)
